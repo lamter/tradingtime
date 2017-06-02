@@ -486,13 +486,14 @@ def is_any_trading(now=None, delta=0, ahead=0):
 
 
 @inited
-def r(now):
+def get_tradingday(now):
     """
 
     :param contract:
     :param now:
     :param ahead:
     :param delta:
-    :return:
+    :return: bool(是否交易时段), 当前交易日
     """
-    return futureTradeCalendar.get_tradingday(now)
+    is_tradingtime, tradeday = futureTradeCalendar.get_tradeday(now)
+    return is_tradingtime, tradeday
