@@ -486,7 +486,7 @@ def is_any_trading(now=None, delta=0, ahead=0):
 
 
 @inited
-def get_tradingday(now):
+def r(now):
     """
 
     :param contract:
