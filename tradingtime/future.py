@@ -2,14 +2,26 @@
 from itertools import chain
 import datetime
 import os
-import json
+import requests
 import functools
+import copy
 
 import arrow
 import calendar
 import pandas as pd
 
 pwd = os.path.split(__file__)[0]
+
+__all__ = [
+    'is_any_trading',
+    'get_trading_status',
+    'load_futures_tradingtime',
+    'get_tradingday',
+    'closed',
+    'call_auction',
+    'match',
+    'continuous_auction',
+]
 
 __inited = False
 
@@ -49,9 +61,9 @@ CFFEX_ndd = (
 CZCE_d = (
     [t(8, 55), t(8, 59), call_auction],  # 集合竞价
     [t(8, 59), t(9, 0), match],  # 撮合
-    [t(9, 0), t(10, 15), continuous_auction],  # 连续竞价
-    [t(10, 30), t(11, 30), continuous_auction],  # 连续竞价
-    [t(13, 30), t(15, 0), continuous_auction],  # 连续竞价
+    [t(9, 0), t(10, 15, 1), continuous_auction],  # 连续竞价
+    [t(10, 30, 0, 500000), t(11, 30), continuous_auction],  # 连续竞价
+    [t(13, 30), t(15, 0, 0, 500000), continuous_auction],  # 连续竞价
 )
 
 # 郑商所夜盘
@@ -84,7 +96,7 @@ SHFE_n2 = (
 SHFE_n3 = (
     [t(20, 55), t(20, 59), call_auction],  # 集合竞价
     [t(20, 59), t(21, 0), call_auction],  # 撮合
-    [t(21, 0), t(23, 0), continuous_auction],  # 连续竞价
+    [t(21, 0), t(23, 0, 1), continuous_auction],  # 连续竞价
 )
 
 # 期货交易时间
@@ -206,8 +218,11 @@ date
         读取假期时间表
         :return:
         """
-        path = os.path.join(pwd, 'futures_holiday.json')
-        return pd.read_json(path, typ="series").sort_index()
+        # path = os.path.join(pwd, 'futures_holiday.json')
+        # pd.read_json(path , typ="series").sort_index()
+
+        r = requests.get('http://www.slavett.club:30030/static/futures_holiday.json')
+        return pd.read_json(r.text, typ="series").sort_index()
 
     def getCalendar(self):
         """
@@ -497,3 +512,46 @@ def get_tradingday(now):
     """
     is_tradingtime, tradeday = futureTradeCalendar.get_tradeday(now)
     return is_tradingtime, tradeday
+
+
+def get_tradingtime_by_status(futures, status):
+    """
+    根据品种名获得交易时间段，判定时间段的方式为
+    开始时间 <= now < 结束时间，是半开放区间。
+
+    :param futures: 品种名，如螺纹钢为 'rb'
+    :param status: 交易状态
+    :return: [[datetime.time(开始时间), datetime.time(结束时间), 时间段状态]]
+    """
+    t = []
+    for b, e, s in futures_tradeing_time[futures]:
+        if s == status:
+            t.append([b, e, s])
+
+    return copy.deepcopy(t)
+
+# def get_not_ticktime(futures):
+#     """
+#     不在连续竞价时间段内的，都不是 Tick 时间
+#     :param futures:
+#     :return:
+#     """
+#     tt = futures_tradeing_time[futures]
+#     # 连续竞价时间
+#     continuous_auction_time = []
+#     for t in futures_tradeing_time:
+#         if t[2] == continuous_auction:
+#             continuous_auction_time.append(t)
+#
+#     # 按照开始时间排序
+#     continuous_auction_time.sort(key=lambda x: x[0])
+#
+#     # 构建 not_ticktime
+#     not_ticktime = []
+#     def foo():
+#         for i in continuous_auction_time:
+#             yield i
+#
+#     timelist = foo()
+#     pre = next(timelist）
+#     next_one = next(timelist)
