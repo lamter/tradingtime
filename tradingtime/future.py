@@ -5,6 +5,7 @@ import os
 import requests
 import functools
 import copy
+import re
 
 import arrow
 import calendar
@@ -21,6 +22,7 @@ __all__ = [
     'call_auction',
     'match',
     'continuous_auction',
+    'contract2name',
 ]
 
 __inited = False
@@ -449,13 +451,14 @@ def get_trading_status(future, now=None, ahead=0, delta=0):
     >>> get_trading_status('IC', delta=10)
     3
 
-    :param future:
+    :param future: 'rb' OR 'rb1801'
     :param now:
     :param ahead: 提前结束 10, 提前 10秒结束
     :param delta: 延迟开始 5, 延迟5秒开始
     :return:
 
     """
+    future = contract2name(future)
 
     if now is None:
         now = arrow.now().time()
@@ -530,6 +533,7 @@ def get_tradingtime_by_status(futures, status):
 
     return copy.deepcopy(t)
 
+
 # def get_not_ticktime(futures):
 #     """
 #     不在连续竞价时间段内的，都不是 Tick 时间
@@ -555,3 +559,14 @@ def get_tradingtime_by_status(futures, status):
 #     timelist = foo()
 #     pre = next(timelist）
 #     next_one = next(timelist)
+
+pattern = re.compile(r'\D*')
+
+
+def contract2name(contract):
+    """
+    将合约代码解析成品种缩写，如：'rb1801' 解析返回 'rb'
+    :param contract:
+    :return:
+    """
+    return pattern.match(contract).group()
