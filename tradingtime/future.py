@@ -15,6 +15,7 @@ pwd = os.path.split(__file__)[0]
 
 __all__ = [
     'is_any_trading',
+    'is_tradingday',
     'get_trading_status',
     'load_futures_tradingtime',
     'get_tradingday',
@@ -515,6 +516,10 @@ def get_tradingday(now):
     """
     is_tradingtime, tradeday = futureTradeCalendar.get_tradeday(now)
     return is_tradingtime, tradeday
+
+@inited
+def is_tradingday(now):
+    return get_tradingday(now)[0]
 
 
 def get_tradingtime_by_status(futures, status):
