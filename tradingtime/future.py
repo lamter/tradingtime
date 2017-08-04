@@ -99,7 +99,7 @@ SHFE_n2 = (
 SHFE_n3 = (
     [t(20, 55), t(20, 59), call_auction],  # 集合竞价
     [t(20, 59), t(21, 0), call_auction],  # 撮合
-    [t(21, 0), t(23, 0, 1), continuous_auction],  # 连续竞价
+    [t(21, 0), t(23, 0), continuous_auction],  # 连续竞价
 )
 
 # 期货交易时间
@@ -427,8 +427,10 @@ def inited(func):
 @inited
 def get_trading_status(future, now=None, ahead=0, delta=0):
     """
-    >>> get_trading_status('rb', now=datetime.time(10,0,0), delta=10)
-    3
+    >>> get_trading_status('rb', now=datetime.time(10,0,0), delta=10) == continuous_auction
+    True
+    >>> get_trading_status('rb', now=datetime.time(23,0,0, 500000)) == continuous_auction
+    True
     >>> future = 'ag'
     >>> today = datetime.date.today()
     >>> for b, e, s in futures_tradeing_time[future]:
@@ -463,6 +465,9 @@ def get_trading_status(future, now=None, ahead=0, delta=0):
 
     if now is None:
         now = arrow.now().time()
+    elif isinstance(now, datetime.datetime):
+        now = arrow.get(now).time()
+
     # 时间列表
     trading_time = futures_tradeing_time[future]
     for b, e, s in trading_time:
@@ -473,8 +478,12 @@ def get_trading_status(future, now=None, ahead=0, delta=0):
         if ahead != 0:
             e = datetime.datetime.combine(datetime.date.today(), e) - datetime.timedelta(seconds=ahead)
             e = e.time()
-        if b <= now < e or (e < b <= now or now < e < b):  # 后一种情况跨天了
+
+        if b <= now <= e:
             # 返回对应的状态
+            return s
+        elif (e < b <= now or now <= e < b):
+            # 这一种情况跨天了
             return s
     else:
         # 不在列表中则为休市状态
@@ -507,6 +516,9 @@ def is_any_trading(now=None, delta=0, ahead=0):
 @inited
 def get_tradingday(now):
     """
+    >>> is_tradingday, tradingday = get_tradingday(datetime.datetime(2017, 7, 31, 23))
+    >>> is_tradingday
+    True
 
     :param contract:
     :param now:
@@ -516,6 +528,7 @@ def get_tradingday(now):
     """
     is_tradingtime, tradeday = futureTradeCalendar.get_tradeday(now)
     return is_tradingtime, tradeday
+
 
 @inited
 def is_tradingday(now):
