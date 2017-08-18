@@ -8,7 +8,7 @@ def read(fname):
         return f.read()
 
 
-__version__ = "2016.12.8"
+__version__ = "2016.12.9"
 
 setup(
     name='tradingtime',
