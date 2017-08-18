@@ -120,6 +120,7 @@ futures_tradeing_time = {
     "TA": list(chain(CZCE_d, CZCE_n)),  # PTA化纤
     "FG": list(chain(CZCE_d, CZCE_n)),  # 玻璃
     "OI": list(chain(CZCE_d, CZCE_n)),  # 菜籽油
+    "CY": list(chain(CZCE_d, CZCE_n)),  # 棉纱
     "WH": CZCE_d,  # 强筋麦709
     "SM": CZCE_d,  # 锰硅709
     "SF": CZCE_d,  # 硅铁709
