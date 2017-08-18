@@ -114,7 +114,7 @@ def _get_futures_tradeing_time():
     """
     dic = {}
     r = requests.get('http://www.slavett.club:30030/static/futures_tradingtime.json')
-    futures_tradingtime = json.loads(r.content)
+    futures_tradingtime = json.loads(r.text)
     for future, trading_time in futures_tradingtime.items():
         dic[future] = tuple(chain(*map(globals().get, trading_time)))
 
