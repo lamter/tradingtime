@@ -1,0 +1,62 @@
+{
+    "IC": ["CFFEX_sid"],
+    "IF": ["CFFEX_sid"],
+    "IH": ["CFFEX_sid"],
+    "TF": ["CFFEX_ndd"],
+    "T": ["CFFEX_ndd"],
+
+    "CF": ["CZCE_d", "CZCE_n"],
+    "ZC": ["CZCE_d", "CZCE_n"],
+    "SR": ["CZCE_d", "CZCE_n"],
+    "RM": ["CZCE_d", "CZCE_n"],
+    "MA": ["CZCE_d", "CZCE_n"],
+    "TA": ["CZCE_d", "CZCE_n"],
+    "FG": ["CZCE_d", "CZCE_n"],
+    "OI": ["CZCE_d", "CZCE_n"],
+    "CY": ["CZCE_d", "CZCE_n"],
+    "WH": ["CZCE_d"],
+    "SM": ["CZCE_d"],
+    "SF": ["CZCE_d"],
+    "RS": ["CZCE_d"],
+    "RI": ["CZCE_d"],
+    "PM": ["CZCE_d"],
+    "LR": ["CZCE_d"],
+    "JR": ["CZCE_d"],
+
+    "j": ["DCE_d", "DCE_n"],
+    "i": ["DCE_d", "DCE_n"],
+    "jm": ["DCE_d", "DCE_n"],
+    "a": ["DCE_d", "DCE_n"],
+    "y": ["DCE_d", "DCE_n"],
+    "m": ["DCE_d", "DCE_n"],
+    "b": ["DCE_d", "DCE_n"],
+    "p": ["DCE_d", "DCE_n"],
+
+    "jd": ["DCE_d"],
+    "l": ["DCE_d"],
+    "v": ["DCE_d"],
+    "pp": ["DCE_d"],
+    "fb": ["DCE_d"],
+    "cs": ["DCE_d"],
+    "c": ["DCE_d"],
+    "bb": ["DCE_d"],
+
+
+    "ag": ["SHFE_d", "SHFE_n1"],
+    "au": ["SHFE_d", "SHFE_n1"],
+
+    "pb": ["SHFE_d", "SHFE_n2"],
+    "ni": ["SHFE_d", "SHFE_n2"],
+    "zn": ["SHFE_d", "SHFE_n2"],
+    "al": ["SHFE_d", "SHFE_n2"],
+    "sn": ["SHFE_d", "SHFE_n2"],
+    "cu": ["SHFE_d", "SHFE_n2"],
+
+    "ru": ["SHFE_d", "SHFE_n3"],
+    "rb": ["SHFE_d", "SHFE_n3"],
+    "hc": ["SHFE_d", "SHFE_n3"],
+    "bu": ["SHFE_d", "SHFE_n3"],
+
+    "wr": ["SHFE_d"],
+    "fu": ["SHFE_d"]
+}

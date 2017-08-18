@@ -6,6 +6,7 @@ import requests
 import functools
 import copy
 import re
+import json
 
 import arrow
 import calendar
@@ -102,7 +103,27 @@ SHFE_n3 = (
     [t(21, 0), t(23, 0), continuous_auction],  # 连续竞价
 )
 
+
+def _get_futures_tradeing_time():
+    """
+    加载交易时间段的数据
+
+    >>> _get_futures_tradeing_time()
+
+    :return:
+    """
+    dic = {}
+    r = requests.get('http://www.slavett.club:30030/static/futures_tradingtime.json')
+    futures_tradingtime = json.loads(r.content)
+    for future, trading_time in futures_tradingtime.items():
+        dic[future] = tuple(chain(*map(globals().get, trading_time)))
+
+    return dic
+
+
 # 期货交易时间
+_futures_tradeing_time = _get_futures_tradeing_time()
+
 futures_tradeing_time = {
     # 中金所
     "IC": CFFEX_sid,  # 中证500股指
@@ -112,15 +133,15 @@ futures_tradeing_time = {
     "T": CFFEX_ndd,  # 10年国债
 
     # 郑商所
-    "CF": list(chain(CZCE_d, CZCE_n)),  # 棉花
-    "ZC": list(chain(CZCE_d, CZCE_n)),  # 动力煤
-    "SR": list(chain(CZCE_d, CZCE_n)),  # 白砂糖
-    "RM": list(chain(CZCE_d, CZCE_n)),  # 菜籽粕
-    "MA": list(chain(CZCE_d, CZCE_n)),  # 甲醇
-    "TA": list(chain(CZCE_d, CZCE_n)),  # PTA化纤
-    "FG": list(chain(CZCE_d, CZCE_n)),  # 玻璃
-    "OI": list(chain(CZCE_d, CZCE_n)),  # 菜籽油
-    "CY": list(chain(CZCE_d, CZCE_n)),  # 棉纱
+    "CF": tuple(chain(CZCE_d, CZCE_n)),  # 棉花
+    "ZC": tuple(chain(CZCE_d, CZCE_n)),  # 动力煤
+    "SR": tuple(chain(CZCE_d, CZCE_n)),  # 白砂糖
+    "RM": tuple(chain(CZCE_d, CZCE_n)),  # 菜籽粕
+    "MA": tuple(chain(CZCE_d, CZCE_n)),  # 甲醇
+    "TA": tuple(chain(CZCE_d, CZCE_n)),  # PTA化纤
+    "FG": tuple(chain(CZCE_d, CZCE_n)),  # 玻璃
+    "OI": tuple(chain(CZCE_d, CZCE_n)),  # 菜籽油
+    "CY": tuple(chain(CZCE_d, CZCE_n)),  # 棉纱
     "WH": CZCE_d,  # 强筋麦709
     "SM": CZCE_d,  # 锰硅709
     "SF": CZCE_d,  # 硅铁709
@@ -131,14 +152,14 @@ futures_tradeing_time = {
     "JR": CZCE_d,  # 粳稻709
 
     # 大商所
-    "j": list(chain(DCE_d, DCE_n)),  # 焦炭
-    "i": list(chain(DCE_d, DCE_n)),  # 铁矿石
-    "jm": list(chain(DCE_d, DCE_n)),  # 焦煤
-    "a": list(chain(DCE_d, DCE_n)),  # 黄大豆1号
-    "y": list(chain(DCE_d, DCE_n)),  # 豆油
-    "m": list(chain(DCE_d, DCE_n)),  # 豆粕
-    "b": list(chain(DCE_d, DCE_n)),  # 黄大豆2号
-    "p": list(chain(DCE_d, DCE_n)),  # 棕榈油
+    "j": tuple(chain(DCE_d, DCE_n)),  # 焦炭
+    "i": tuple(chain(DCE_d, DCE_n)),  # 铁矿石
+    "jm": tuple(chain(DCE_d, DCE_n)),  # 焦煤
+    "a": tuple(chain(DCE_d, DCE_n)),  # 黄大豆1号
+    "y": tuple(chain(DCE_d, DCE_n)),  # 豆油
+    "m": tuple(chain(DCE_d, DCE_n)),  # 豆粕
+    "b": tuple(chain(DCE_d, DCE_n)),  # 黄大豆2号
+    "p": tuple(chain(DCE_d, DCE_n)),  # 棕榈油
     ###################
     "jd": DCE_d,  # 鲜鸡蛋1709
     "l": DCE_d,  # 聚乙烯1709
@@ -150,20 +171,20 @@ futures_tradeing_time = {
     "bb": DCE_d,  # 胶合板1709
 
     # 上期所
-    "ag": list(chain(SHFE_d, SHFE_n1)),  # 白银1709
-    "au": list(chain(SHFE_d, SHFE_n1)),  # 黄金1710
+    "ag": tuple(chain(SHFE_d, SHFE_n1)),  # 白银1709
+    "au": tuple(chain(SHFE_d, SHFE_n1)),  # 黄金1710
     ##################
-    "pb": list(chain(SHFE_d, SHFE_n2)),  # 铅1709
-    "ni": list(chain(SHFE_d, SHFE_n2)),  # 镍1709
-    "zn": list(chain(SHFE_d, SHFE_n2)),  # 锌1709
-    "al": list(chain(SHFE_d, SHFE_n2)),  # 铝1709
-    "sn": list(chain(SHFE_d, SHFE_n2)),  # 锡1709
-    "cu": list(chain(SHFE_d, SHFE_n2)),  # 铜1709
+    "pb": tuple(chain(SHFE_d, SHFE_n2)),  # 铅1709
+    "ni": tuple(chain(SHFE_d, SHFE_n2)),  # 镍1709
+    "zn": tuple(chain(SHFE_d, SHFE_n2)),  # 锌1709
+    "al": tuple(chain(SHFE_d, SHFE_n2)),  # 铝1709
+    "sn": tuple(chain(SHFE_d, SHFE_n2)),  # 锡1709
+    "cu": tuple(chain(SHFE_d, SHFE_n2)),  # 铜1709
     #########
-    "ru": list(chain(SHFE_d, SHFE_n3)),  # 天然橡胶1709
-    "rb": list(chain(SHFE_d, SHFE_n3)),  # 螺纹钢1709
-    "hc": list(chain(SHFE_d, SHFE_n3)),  # 热轧板1709
-    "bu": list(chain(SHFE_d, SHFE_n3)),  # 沥青1809
+    "ru": tuple(chain(SHFE_d, SHFE_n3)),  # 天然橡胶1709
+    "rb": tuple(chain(SHFE_d, SHFE_n3)),  # 螺纹钢1709
+    "hc": tuple(chain(SHFE_d, SHFE_n3)),  # 热轧板1709
+    "bu": tuple(chain(SHFE_d, SHFE_n3)),  # 沥青1809
     ##############
     "wr": SHFE_d,  # 线材1709
     "fu": SHFE_d,  # 燃料油1709
