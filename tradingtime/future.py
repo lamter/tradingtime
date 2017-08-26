@@ -226,6 +226,9 @@ date
             self.end = self.end.replace(end.year + 1)
 
         # 交易日历
+        self.calendar = None
+
+    def load(self):
         self.calendar = self.getCalendar()
 
     @staticmethod
@@ -269,6 +272,9 @@ date
 
         # 标记交易状态
         tradecalendar = self._tradestatus(tradecalendar)
+
+        # 是否是结算日, 有日盘的那天就是结算日
+        tradecalendar['is_tradingday'] = tradecalendar.day_trade
 
         return tradecalendar
 
@@ -409,6 +415,15 @@ date
             # 午夜盘，已经过了零点了，当前交易日
             return day.midnight_trade, day.tradeday
 
+    def is_tradingday(self, dt):
+        """
+
+        :param dt:
+        :return:
+        """
+        date = dt.date()
+        return self.calendar.is_tradingday[date]
+
     def get_tradeday_opentime(self, tradeday):
         """
         获得交易日的起始日，比如长假后第一个交易日的起始日应该为节前的最后一个交易日
@@ -421,17 +436,16 @@ date
 
 
 # 期货交易日历实例
-futureTradeCalendar = None
-futures = None
+futureTradeCalendar = FutureTradeCalendar()
+futures = list(futures_tradeing_time.keys())
 
 
 # 交易日历
 def load_futures_tradingtime():
     global futureTradeCalendar, futures, __inited
 
-    futureTradeCalendar = FutureTradeCalendar()
+    futureTradeCalendar.load()
 
-    futures = list(futures_tradeing_time.keys())
     futures.sort()
     __inited = True
 
@@ -553,8 +567,9 @@ def get_tradingday(now):
 
 
 @inited
-def is_tradingday(now):
-    return get_tradingday(now)[0]
+def is_tradingday(dt):
+    return futureTradeCalendar.is_tradingday(dt)
+
 
 
 def get_tradingtime_by_status(futures, status):
