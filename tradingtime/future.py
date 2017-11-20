@@ -558,7 +558,7 @@ def get_tradingday(dt):
     >>> is_tradingday
     True
     >>> tradingday
-    datetime.datetime(2017, 8, 1, 8, 0, tzinfo=tzoffset(None, 28800))
+    datetime.datetime(2017, 8, 1, 0, 0, tzinfo=tzoffset(None, 28800))
 
     :param dt: 给定时间点，用于判定该时间点对应的交易日
     :return: bool(是否交易时段), 当前交易日
@@ -574,6 +574,7 @@ def get_tradingday(dt):
     is_tradingtime, tradeday = futureTradeCalendar.get_tradeday(dt)
 
     if tzInfo:
+        tradeday = LOCAL_TZINFO.localize(tradeday)
         tradeday = arrow.get(tradeday).to(tzInfo).datetime
 
     return is_tradingtime, tradeday
