@@ -7,6 +7,7 @@ import functools
 import copy
 import re
 import json
+import pytz
 
 import arrow
 import calendar
@@ -26,7 +27,7 @@ __all__ = [
     'continuous_auction',
     'contract2name',
 ]
-
+LOCAL_TZINFO = pytz.timezone('Asia/Shanghai')
 __inited = False
 
 # 交易日类型
@@ -550,26 +551,37 @@ def is_any_trading(now=None, delta=0, ahead=0):
 
 
 @inited
-def get_tradingday(now):
+def get_tradingday(dt):
     """
-    >>> is_tradingday, tradingday = get_tradingday(datetime.datetime(2017, 7, 31, 23))
+    >>> import arrow
+    >>> is_tradingday, tradingday = get_tradingday(arrow.get('2017-07-31 23:00:00+08:00').datetime)
     >>> is_tradingday
     True
+    >>> tradingday
+    datetime.datetime(2017, 8, 1, 8, 0, tzinfo=tzoffset(None, 28800))
 
-    :param contract:
-    :param now:
-    :param ahead:
-    :param delta:
+    :param dt: 给定时间点，用于判定该时间点对应的交易日
     :return: bool(是否交易时段), 当前交易日
     """
-    is_tradingtime, tradeday = futureTradeCalendar.get_tradeday(now)
+    assert isinstance(dt, datetime.datetime)
+
+    tzInfo = None
+    if dt.tzinfo:
+        # 有时区,将时区转为东八区
+        tzInfo = dt.tzinfo
+        dt = arrow.get(dt).to(LOCAL_TZINFO)
+
+    is_tradingtime, tradeday = futureTradeCalendar.get_tradeday(dt)
+
+    if tzInfo:
+        tradeday = arrow.get(tradeday).to(tzInfo).datetime
+
     return is_tradingtime, tradeday
 
 
 @inited
 def is_tradingday(dt):
     return futureTradeCalendar.is_tradingday(dt)
-
 
 
 def get_tradingtime_by_status(futures, status):
