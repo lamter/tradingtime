@@ -151,6 +151,7 @@ futures_tradeing_time = {
     "PM": CZCE_d,  # 普通小麦709
     "LR": CZCE_d,  # 晚籼稻709
     "JR": CZCE_d,  # 粳稻709
+    "AP": CZCE_d,  # 苹果
 
     # 大商所
     "j": tuple(chain(DCE_d, DCE_n)),  # 焦炭
@@ -464,9 +465,9 @@ def inited(func):
 @inited
 def get_trading_status(future, now=None, ahead=0, delta=0):
     """
-    >>> get_trading_status('rb', now=datetime.time(10,0,0), delta=10) == continuous_auction
+    >>> get_trading_status('AP', now=datetime.time(10,0,0), delta=10) == continuous_auction
     True
-    >>> get_trading_status('rb', now=datetime.time(23,0,0, 500000)) == continuous_auction
+    >>> get_trading_status('AP', now=datetime.time(10,14,0, 500000)) == continuous_auction
     True
     >>> future = 'ag'
     >>> today = datetime.date.today()
