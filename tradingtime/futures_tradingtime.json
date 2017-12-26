@@ -22,6 +22,7 @@
     "PM": ["CZCE_d"],
     "LR": ["CZCE_d"],
     "JR": ["CZCE_d"],
+    "AP": ["CZCE_d"],
 
     "j": ["DCE_d", "DCE_n"],
     "i": ["DCE_d", "DCE_n"],

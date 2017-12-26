@@ -116,6 +116,7 @@ def _get_futures_tradeing_time():
     dic = {}
     r = requests.get('http://www.slavett.club:30030/static/futures_tradingtime.json')
     futures_tradingtime = json.loads(r.text)
+
     for future, trading_time in futures_tradingtime.items():
         dic[future] = tuple(chain(*map(globals().get, trading_time)))
 
@@ -248,11 +249,13 @@ date
         读取假期时间表
         :return:
         """
-        # path = os.path.join(pwd, 'futures_holiday.json')
-        # pd.read_json(path , typ="series").sort_index()
+        # 使用本地文件调试
+        # with open('futures_holiday.json', 'r') as f:
+        #     return pd.read_json(f.read(), typ="series").sort_index()
 
         r = requests.get('http://www.slavett.club:30030/static/futures_holiday.json')
         return pd.read_json(r.text, typ="series").sort_index()
+
 
     def getCalendar(self):
         """
@@ -467,6 +470,8 @@ def get_trading_status(future, now=None, ahead=0, delta=0):
     """
     >>> get_trading_status('AP', now=datetime.time(10,0,0), delta=10) == continuous_auction
     True
+    >>> get_trading_status('AP', now=datetime.time(10,14,0, 500000))
+    3
     >>> get_trading_status('AP', now=datetime.time(10,14,0, 500000)) == continuous_auction
     True
     >>> future = 'ag'
@@ -555,11 +560,11 @@ def is_any_trading(now=None, delta=0, ahead=0):
 def get_tradingday(dt):
     """
     >>> import arrow
-    >>> is_tradingday, tradingday = get_tradingday(arrow.get('2017-07-31 23:00:00+08:00').datetime)
+    >>> is_tradingday, tradingday = get_tradingday(arrow.get('2018-09-28 23:00:00+08:00').datetime)
     >>> is_tradingday
     True
     >>> tradingday
-    datetime.datetime(2017, 8, 1, 0, 0, tzinfo=tzoffset(None, 28800))
+    datetime.datetime(2018, 10, 8, 0, 0, tzinfo=tzoffset(None, 28800))
 
     :param dt: 给定时间点，用于判定该时间点对应的交易日
     :return: bool(是否交易时段), 当前交易日
