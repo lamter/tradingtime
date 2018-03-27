@@ -104,6 +104,15 @@ SHFE_n3 = (
     [t(21, 0), t(23, 0), continuous_auction],  # 连续竞价
 )
 
+# 能源所日盘
+INE_d = CZCE_d
+# 能源所夜盘
+INE_n = SHFE_n1
+
+
+class UnknowUnlyingsymbol(TypeError, ValueError):
+    pass
+
 
 def _get_futures_tradeing_time():
     """
@@ -191,6 +200,9 @@ futures_tradeing_time = {
     ##############
     "wr": SHFE_d,  # 线材1709
     "fu": SHFE_d,  # 燃料油1709
+
+    # 能源所
+    "sc": tuple(chain(INE_d, INE_n)),  # 螺纹钢1709
 }
 
 # 日盘开始
@@ -255,7 +267,6 @@ date
 
         r = requests.get('http://www.slavett.club:30030/static/futures_holiday.json')
         return pd.read_json(r.text, typ="series").sort_index()
-
 
     def getCalendar(self):
         """
@@ -505,6 +516,8 @@ def get_trading_status(future, now=None, ahead=0, delta=0):
 
     """
     future = contract2name(future)
+    if future not in futures_tradeing_time:
+        raise UnknowUnlyingsymbol('future {}'.format(future))
 
     if now is None:
         now = arrow.now().time()

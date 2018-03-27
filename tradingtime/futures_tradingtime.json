@@ -59,5 +59,7 @@
     "bu": ["SHFE_d", "SHFE_n3"],
 
     "wr": ["SHFE_d"],
-    "fu": ["SHFE_d"]
+    "fu": ["SHFE_d"],
+
+    "sc": ["INE_d", "INE_n"]
 }
