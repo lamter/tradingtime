@@ -146,7 +146,7 @@ futures_tradeing_time = {
     # 郑商所
     "CF": tuple(chain(CZCE_d, CZCE_n)),  # 棉花
     "ZC": tuple(chain(CZCE_d, CZCE_n)),  # 动力煤
-    "SR": tuple(chain(CZCE_d, CZCE_n)),  # 白砂糖
+    "SR": tuple(chain(CZCE_d, CZCE_n)),  # 白糖
     "RM": tuple(chain(CZCE_d, CZCE_n)),  # 菜籽粕
     "MA": tuple(chain(CZCE_d, CZCE_n)),  # 甲醇
     "TA": tuple(chain(CZCE_d, CZCE_n)),  # PTA化纤
@@ -204,6 +204,8 @@ futures_tradeing_time = {
     # 能源所
     "sc": tuple(chain(INE_d, INE_n)),  # 螺纹钢1709
 }
+
+futures_tradeing_time = _futures_tradeing_time
 
 # 日盘开始
 DAY_LINE = datetime.time(3)
