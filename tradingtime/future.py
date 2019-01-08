@@ -181,6 +181,7 @@ futures_tradeing_time = {
     "cs": DCE_d,  # 玉米淀粉1709
     "c": DCE_d,  # 黄玉米1709
     "bb": DCE_d,  # 胶合板1709
+    "eg": DCE_d,  # 乙二醇
 
     # 上期所
     "ag": tuple(chain(SHFE_d, SHFE_n1)),  # 白银1709
@@ -264,10 +265,11 @@ date
         :return:
         """
         # 使用本地文件调试
-        # with open('futures_holiday.json', 'r') as f:
-        #     return pd.read_json(f.read(), typ="series").sort_index()
 
-        r = requests.get('http://www.slavett.club:30030/static/futures_holiday.json')
+        with open(os.path.join(os.path.split(__file__)[0],'futures_holiday.json'), 'r') as f:
+            return pd.read_json(f.read(), typ="series").sort_index()
+
+        # r = requests.get('http://www.slavett.club:30030/static/futures_holiday.json')
         return pd.read_json(r.text, typ="series").sort_index()
 
     def getCalendar(self):
