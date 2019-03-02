@@ -266,10 +266,10 @@ date
         """
         # 使用本地文件调试
 
-        with open(os.path.join(os.path.split(__file__)[0],'futures_holiday.json'), 'r') as f:
-            return pd.read_json(f.read(), typ="series").sort_index()
+        # with open(os.path.join(os.path.split(__file__)[0],'futures_holiday.json'), 'r') as f:
+        #     return pd.read_json(f.read(), typ="series").sort_index()
 
-        # r = requests.get('http://www.slavett.club:30030/static/futures_holiday.json')
+        r = requests.get('http://www.slavett.club:30030/static/futures_holiday.json')
         return pd.read_json(r.text, typ="series").sort_index()
 
     def getCalendar(self):
@@ -456,14 +456,15 @@ date
 
 
 # 期货交易日历实例
-futureTradeCalendar = FutureTradeCalendar()
+futureTradeCalendar = None
 futures = list(futures_tradeing_time.keys())
 
 
 # 交易日历
-def load_futures_tradingtime():
+def load_futures_tradingtime(begin=None, end=None):
     global futureTradeCalendar, futures, __inited
 
+    futureTradeCalendar = FutureTradeCalendar(begin, end)
     futureTradeCalendar.load()
 
     futures.sort()
