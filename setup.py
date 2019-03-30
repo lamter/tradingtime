@@ -8,13 +8,13 @@ def read(fname):
         return f.read()
 
 
-__version__ = "0.0.6"
+__version__ = "0.0.7"
 
 setup(
     name='tradingtime',
     version=__version__,
     keywords='tradingtime',
-    description=u'证券市场交易日历 2018.08.17',
+    description=u'证券市场交易日历 2019.03.26',
     long_description=read("README.md"),
 
     url='https://github.com/lamter/tradingtime',

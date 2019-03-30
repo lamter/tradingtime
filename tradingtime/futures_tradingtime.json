@@ -4,6 +4,7 @@
     "IH": ["CFFEX_sid"],
     "TF": ["CFFEX_ndd"],
     "T": ["CFFEX_ndd"],
+    "TS": ["CFFEX_ndd"],
 
     "CF": ["CZCE_d", "CZCE_n"],
     "ZC": ["CZCE_d", "CZCE_n"],
@@ -32,14 +33,15 @@
     "m": ["DCE_d", "DCE_n"],
     "b": ["DCE_d", "DCE_n"],
     "p": ["DCE_d", "DCE_n"],
+    "l": ["DCE_d", "DCE_n"],
+    "v": ["DCE_d", "DCE_n"],
+    "pp": ["DCE_d", "DCE_n"],
+    "c": ["DCE_d", "DCE_n"],
+    "cs": ["DCE_d", "DCE_n"],
+    "eg": ["DCE_d", "DCE_n"],
 
     "jd": ["DCE_d"],
-    "l": ["DCE_d"],
-    "v": ["DCE_d"],
-    "pp": ["DCE_d"],
     "fb": ["DCE_d"],
-    "cs": ["DCE_d"],
-    "c": ["DCE_d"],
     "bb": ["DCE_d"],
 
 
@@ -57,6 +59,7 @@
     "rb": ["SHFE_d", "SHFE_n3"],
     "hc": ["SHFE_d", "SHFE_n3"],
     "bu": ["SHFE_d", "SHFE_n3"],
+    "sp": ["SHFE_d", "SHFE_n3"],
 
     "wr": ["SHFE_d"],
     "fu": ["SHFE_d"],

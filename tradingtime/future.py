@@ -79,12 +79,30 @@ CZCE_n = (
 )
 
 # 大商所日盘
-DCE_d = CZCE_d
+DCE_d =  (
+    [t(8, 55), t(8, 59), call_auction],  # 集合竞价
+    [t(8, 59), t(9, 0), match],  # 撮合
+    [t(9, 0), t(10, 15, 1), continuous_auction],  # 连续竞价
+    [t(10, 30, 0, 500000), t(11, 30), continuous_auction],  # 连续竞价
+    [t(13, 30), t(15, 0, 0, 500000), continuous_auction],  # 连续竞价
+)
+
 # 大商所夜盘
-DCE_n = CZCE_n
+DCE_n = (
+    [t(20, 55), t(20, 59), call_auction],  # 集合竞价
+    [t(20, 59), t(21, 0), match],  # 撮合
+    [t(21, 0), t(23, 0), continuous_auction],  # 连续竞价
+)
 
 # 上期所日盘
-SHFE_d = CZCE_d
+SHFE_d = (
+    [t(8, 55), t(8, 59), call_auction],  # 集合竞价
+    [t(8, 59), t(9, 0), match],  # 撮合
+    [t(9, 0), t(10, 15, 1), continuous_auction],  # 连续竞价
+    [t(10, 30, 0, 500000), t(11, 30), continuous_auction],  # 连续竞价
+    [t(13, 30), t(15, 0, 0, 500000), continuous_auction],  # 连续竞价
+)
+
 # 上期所夜盘
 SHFE_n1 = (
     [t(20, 55), t(20, 59), call_auction],  # 集合竞价
@@ -122,15 +140,24 @@ def _get_futures_tradeing_time():
 
     :return:
     """
-    dic = {}
     r = requests.get('http://www.slavett.club:30030/static/futures_tradingtime.json')
     futures_tradingtime = json.loads(r.text)
+    # with open('./tradingtime/futures_tradingtime.json') as f:
+    #     futures_tradingtime = json.load(f)
 
+    r = requests.get('http://www.slavett.club:30030/static/futures_exch.json')
+    futures_exch = json.loads(r.text)
+    # with open('./tradingtime/futures_exch.json') as f:
+    #     futures_exch = json.load(f)
+
+    for k, v in futures_exch.items():
+        globals()[k] = [(t(*b), t(*e), globals()[s]) for b, e, s in v]
+
+    dic = {}
     for future, trading_time in futures_tradingtime.items():
         dic[future] = tuple(chain(*map(globals().get, trading_time)))
 
     return dic
-
 
 # 期货交易时间
 _futures_tradeing_time = _get_futures_tradeing_time()
@@ -142,6 +169,7 @@ futures_tradeing_time = {
     "IH": CFFEX_sid,  # 上证50股指
     "TF": CFFEX_ndd,  # 5年国债
     "T": CFFEX_ndd,  # 10年国债
+    "TS": CFFEX_ndd,  # 2年国债
 
     # 郑商所
     "CF": tuple(chain(CZCE_d, CZCE_n)),  # 棉花
@@ -172,16 +200,17 @@ futures_tradeing_time = {
     "m": tuple(chain(DCE_d, DCE_n)),  # 豆粕
     "b": tuple(chain(DCE_d, DCE_n)),  # 黄大豆2号
     "p": tuple(chain(DCE_d, DCE_n)),  # 棕榈油
+    "l": tuple(chain(DCE_d, DCE_n)),  # 聚乙烯1709
+    "v": tuple(chain(DCE_d, DCE_n)),  # 聚氯乙烯1709
+    "pp": tuple(chain(DCE_d, DCE_n)),  # 聚丙烯1709
+    "cs": tuple(chain(DCE_d, DCE_n)),  # 玉米淀粉1709
+    "c": tuple(chain(DCE_d, DCE_n)),  # 黄玉米1709
+    "eg": tuple(chain(DCE_d, DCE_n)),  # 乙二醇
     ###################
     "jd": DCE_d,  # 鲜鸡蛋1709
-    "l": DCE_d,  # 聚乙烯1709
-    "v": DCE_d,  # 聚氯乙烯1709
-    "pp": DCE_d,  # 聚丙烯1709
     "fb": DCE_d,  # 纤维板1709
-    "cs": DCE_d,  # 玉米淀粉1709
-    "c": DCE_d,  # 黄玉米1709
     "bb": DCE_d,  # 胶合板1709
-    "eg": DCE_d,  # 乙二醇
+
 
     # 上期所
     "ag": tuple(chain(SHFE_d, SHFE_n1)),  # 白银1709
@@ -198,6 +227,7 @@ futures_tradeing_time = {
     "rb": tuple(chain(SHFE_d, SHFE_n3)),  # 螺纹钢1709
     "hc": tuple(chain(SHFE_d, SHFE_n3)),  # 热轧板1709
     "bu": tuple(chain(SHFE_d, SHFE_n3)),  # 沥青1809
+    "sp": tuple(chain(SHFE_d, SHFE_n3)),  # 纸浆1901
     ##############
     "wr": SHFE_d,  # 线材1709
     "fu": SHFE_d,  # 燃料油1709
