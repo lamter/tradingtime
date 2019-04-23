@@ -454,7 +454,10 @@ date
         """
 
         t = now.time()
-        day = self.calendar.ix[now.date()]
+        try:
+            day = self.calendar.ix[now.date()]
+        except KeyError:
+            raise ValueError('日历超出范围，使用 load_futures_tradingtime 函数重新设定范围')
         if DAY_LINE < t < NIGHT_LINE:
             # 日盘, 当前交易日
             return day.day_trade, day.tradeday
