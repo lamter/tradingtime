@@ -75,6 +75,13 @@ CZCE_d = (
 CZCE_n = (
     [t(20, 55), t(20, 59), call_auction],  # 集合竞价
     [t(20, 59), t(21, 0), match],  # 撮合
+    [t(21, 0), t(23, 0), continuous_auction],  # 连续竞价
+)
+
+# 郑商所夜盘2
+CZCE_n2 = (
+    [t(20, 55), t(20, 59), call_auction],  # 集合竞价
+    [t(20, 59), t(21, 0), match],  # 撮合
     [t(21, 0), t(23, 30), continuous_auction],  # 连续竞价
 )
 
@@ -123,9 +130,19 @@ SHFE_n3 = (
 )
 
 # 能源所日盘
-INE_d = CZCE_d
+INE_d = (
+    [t(8, 55), t(8, 59), call_auction],  # 集合竞价
+    [t(8, 59), t(9, 0), match],  # 撮合
+    [t(9, 0), t(10, 15, 1), continuous_auction],  # 连续竞价
+    [t(10, 30, 0, 500000), t(11, 30), continuous_auction],  # 连续竞价
+    [t(13, 30), t(15, 0, 0, 500000), continuous_auction],  # 连续竞价
+)
 # 能源所夜盘
-INE_n = SHFE_n1
+INE_n = (
+    [t(20, 55), t(20, 59), call_auction],  # 集合竞价
+    [t(20, 59), t(21, 0), call_auction],  # 撮合
+    [t(21, 0), t(2, 30), continuous_auction],  # 连续竞价
+)
 
 
 class UnknowUnlyingsymbol(TypeError, ValueError):
@@ -181,6 +198,7 @@ futures_tradeing_time = {
     "FG": tuple(chain(CZCE_d, CZCE_n)),  # 玻璃
     "OI": tuple(chain(CZCE_d, CZCE_n)),  # 菜籽油
     "CY": tuple(chain(CZCE_d, CZCE_n)),  # 棉纱
+    "SA": tuple(chain(CZCE_d, CZCE_n)),  # 纯碱
     "WH": CZCE_d,  # 强筋麦709
     "SM": CZCE_d,  # 锰硅709
     "SF": CZCE_d,  # 硅铁709
@@ -190,6 +208,8 @@ futures_tradeing_time = {
     "LR": CZCE_d,  # 晚籼稻709
     "JR": CZCE_d,  # 粳稻709
     "AP": CZCE_d,  # 苹果
+    "CJ": CZCE_d,  # 红枣
+    "UR": CZCE_d,  # 尿素
 
     # 大商所
     "j": tuple(chain(DCE_d, DCE_n)),  # 焦炭
@@ -206,6 +226,8 @@ futures_tradeing_time = {
     "cs": tuple(chain(DCE_d, DCE_n)),  # 玉米淀粉1709
     "c": tuple(chain(DCE_d, DCE_n)),  # 黄玉米1709
     "eg": tuple(chain(DCE_d, DCE_n)),  # 乙二醇
+    "rr": tuple(chain(DCE_d, DCE_n)),  # 粳米
+    "eb": tuple(chain(DCE_d, DCE_n)),  # 苯乙烯
     ###################
     "jd": DCE_d,  # 鲜鸡蛋1709
     "fb": DCE_d,  # 纤维板1709
@@ -222,6 +244,7 @@ futures_tradeing_time = {
     "al": tuple(chain(SHFE_d, SHFE_n2)),  # 铝1709
     "sn": tuple(chain(SHFE_d, SHFE_n2)),  # 锡1709
     "cu": tuple(chain(SHFE_d, SHFE_n2)),  # 铜1709
+    "ss": tuple(chain(SHFE_d, SHFE_n2)),  # 不锈钢
     #########
     "ru": tuple(chain(SHFE_d, SHFE_n3)),  # 天然橡胶1709
     "rb": tuple(chain(SHFE_d, SHFE_n3)),  # 螺纹钢1709
@@ -233,7 +256,8 @@ futures_tradeing_time = {
     "fu": SHFE_d,  # 燃料油1709
 
     # 能源所
-    "sc": tuple(chain(INE_d, INE_n)),  # 螺纹钢1709
+    "sc": tuple(chain(INE_d, INE_n)),   # 原油
+    "nr": tuple(chain(INE_d)),          # 20号胶
 }
 
 futures_tradeing_time = _futures_tradeing_time

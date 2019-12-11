@@ -15,6 +15,7 @@
     "FG": ["CZCE_d", "CZCE_n"],
     "OI": ["CZCE_d", "CZCE_n"],
     "CY": ["CZCE_d", "CZCE_n"],
+    "SA": ["CZCE_d", "CZCE_n"],
     "WH": ["CZCE_d"],
     "SM": ["CZCE_d"],
     "SF": ["CZCE_d"],
@@ -25,6 +26,7 @@
     "JR": ["CZCE_d"],
     "AP": ["CZCE_d"],
     "CJ": ["CZCE_d"],
+    "UR": ["CZCE_d"],
 
     "j": ["DCE_d", "DCE_n"],
     "i": ["DCE_d", "DCE_n"],
@@ -40,6 +42,8 @@
     "c": ["DCE_d", "DCE_n"],
     "cs": ["DCE_d", "DCE_n"],
     "eg": ["DCE_d", "DCE_n"],
+    "rr": ["DCE_d", "DCE_n"],
+    "eb": ["DCE_d", "DCE_n"],
 
     "jd": ["DCE_d"],
     "fb": ["DCE_d"],
@@ -55,6 +59,7 @@
     "al": ["SHFE_d", "SHFE_n2"],
     "sn": ["SHFE_d", "SHFE_n2"],
     "cu": ["SHFE_d", "SHFE_n2"],
+    "ss": ["SHFE_d", "SHFE_n2"],
 
     "ru": ["SHFE_d", "SHFE_n3"],
     "rb": ["SHFE_d", "SHFE_n3"],
@@ -65,5 +70,6 @@
     "wr": ["SHFE_d"],
     "fu": ["SHFE_d"],
 
-    "sc": ["INE_d", "INE_n"]
+    "sc": ["INE_d", "INE_n"],
+    "nr": ["INE_d"]
 }
