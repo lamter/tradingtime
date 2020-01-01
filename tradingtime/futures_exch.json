@@ -24,7 +24,7 @@
   "CZCE_n": [
       [[20, 55], [20, 59], "call_auction"],  
       [[20, 59], [21, 0], "match"],  
-      [[21, 0], [23, 30], "continuous_auction"]
+      [[21, 0], [23, 0], "continuous_auction"]
   ],
   
   "DCE_d": [
