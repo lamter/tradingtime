@@ -228,6 +228,7 @@ futures_tradeing_time = {
     "eg": tuple(chain(DCE_d, DCE_n)),  # 乙二醇
     "rr": tuple(chain(DCE_d, DCE_n)),  # 粳米
     "eb": tuple(chain(DCE_d, DCE_n)),  # 苯乙烯
+    "pg": tuple(chain(DCE_d, DCE_n)),  # 液化石油气
     ###################
     "jd": DCE_d,  # 鲜鸡蛋1709
     "fb": DCE_d,  # 纤维板1709

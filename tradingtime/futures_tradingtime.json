@@ -44,6 +44,7 @@
     "eg": ["DCE_d", "DCE_n"],
     "rr": ["DCE_d", "DCE_n"],
     "eb": ["DCE_d", "DCE_n"],
+    "pg": ["DCE_d", "DCE_n"],
 
     "jd": ["DCE_d"],
     "fb": ["DCE_d"],
