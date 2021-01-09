@@ -16,6 +16,7 @@
     "OI": ["CZCE_d", "CZCE_n"],
     "CY": ["CZCE_d", "CZCE_n"],
     "SA": ["CZCE_d", "CZCE_n"],
+    "PF": ["CZCE_d", "CZCE_n"],
     "WH": ["CZCE_d"],
     "SM": ["CZCE_d"],
     "SF": ["CZCE_d"],
@@ -49,6 +50,7 @@
     "jd": ["DCE_d"],
     "fb": ["DCE_d"],
     "bb": ["DCE_d"],
+    "lh": ["DCE_d"],
 
 
     "ag": ["SHFE_d", "SHFE_n1"],
@@ -72,5 +74,7 @@
     "fu": ["SHFE_d"],
 
     "sc": ["INE_d", "INE_n"],
-    "nr": ["INE_d"]
+    "nr": ["INE_d"],
+    "lu": ["INE_d", "INE_n"],
+    "bc": ["INE_d", "INE_n"]
 }

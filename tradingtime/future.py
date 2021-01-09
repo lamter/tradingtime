@@ -199,6 +199,7 @@ futures_tradeing_time = {
     "OI": tuple(chain(CZCE_d, CZCE_n)),  # 菜籽油
     "CY": tuple(chain(CZCE_d, CZCE_n)),  # 棉纱
     "SA": tuple(chain(CZCE_d, CZCE_n)),  # 纯碱
+    "PF": tuple(chain(CZCE_d, CZCE_n)),  # 短纤
     "WH": CZCE_d,  # 强筋麦709
     "SM": CZCE_d,  # 锰硅709
     "SF": CZCE_d,  # 硅铁709
@@ -233,6 +234,7 @@ futures_tradeing_time = {
     "jd": DCE_d,  # 鲜鸡蛋1709
     "fb": DCE_d,  # 纤维板1709
     "bb": DCE_d,  # 胶合板1709
+    "lh": DCE_d,  # 生猪肉
 
 
     # 上期所
@@ -259,6 +261,8 @@ futures_tradeing_time = {
     # 能源所
     "sc": tuple(chain(INE_d, INE_n)),   # 原油
     "nr": tuple(chain(INE_d)),          # 20号胶
+    "lu": tuple(chain(INE_d, INE_n)),   # 低硫燃料油
+    "bc": tuple(chain(INE_d, INE_n)),   # 国际铜
 }
 
 futures_tradeing_time = _futures_tradeing_time
@@ -321,8 +325,8 @@ date
         """
         # 使用本地文件调试
 
-        # with open(os.path.join(os.path.split(__file__)[0],'futures_holiday.json'), 'r') as f:
-        #     return pd.read_json(f.read(), typ="series").sort_index()
+        with open(os.path.join(os.path.split(__file__)[0],'futures_holiday.json'), 'r') as f:
+            return pd.read_json(f.read(), typ="series").sort_index()
 
         r = requests.get('http://www.slavett.club:30030/static/futures_holiday.json')
         return pd.read_json(r.text, typ="series").sort_index()
